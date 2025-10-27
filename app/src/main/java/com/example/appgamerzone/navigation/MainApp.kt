@@ -8,6 +8,7 @@ import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -17,7 +18,6 @@ fun MainApp() {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
 
-    // Función para navegar y cerrar drawer
     fun navigateWithDrawer(route: String) {
         scope.launch {
             drawerState.close()
@@ -25,44 +25,35 @@ fun MainApp() {
         }
     }
 
-    // Función para abrir drawer
     val openDrawer: () -> Unit = {
-        scope.launch {
-            drawerState.open()
-        }
+        scope.launch { drawerState.open() }
     }
 
-    // Determinar si mostrar drawer basado en la ruta actual
-    val currentRoute = navController.currentBackStackEntry?.destination?.route
+    val backStackEntry = navController.currentBackStackEntryAsState().value
+    val currentRoute = backStackEntry?.destination?.route
     val showDrawer = currentRoute == Screen.Home.route ||
             currentRoute == Screen.Catalog.route ||
             currentRoute?.startsWith(Screen.Catalog.route) == true
 
     if (showDrawer) {
-        // Pantallas CON Navigation Drawer
         ModalNavigationDrawer(
             drawerState = drawerState,
             drawerContent = {
                 NavigationDrawerContent(
-                    onItemClick = { route ->
-                        navigateWithDrawer(route)
-                    },
-                    onClose = {
-                        scope.launch { drawerState.close() }
-                    }
+                    onItemClick = { route -> navigateWithDrawer(route) },
+                    onClose = { scope.launch { drawerState.close() } }
                 )
             }
         ) {
             NavGraph(
-                navController = navController,  // ← Pasar navController
-                onOpenDrawer = openDrawer      // ← Pasar función para abrir drawer
+                navController = navController,
+                onOpenDrawer = openDrawer
             )
         }
     } else {
-        // Pantallas SIN Navigation Drawer (Login, Register)
         NavGraph(
-            navController = navController,      // ← Pasar navController
-            onOpenDrawer = {}                   // ← No hacer nada en estas pantallas
+            navController = navController,
+            onOpenDrawer = {}
         )
     }
 }

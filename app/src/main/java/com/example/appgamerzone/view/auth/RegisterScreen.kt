@@ -6,6 +6,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
@@ -30,15 +31,16 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.appgamerzone.viewmodel.AuthViewModel
+import com.appgamerzone.viewmodel.AuthViewModelFactory
 
 @Composable
 fun RegisterScreen(
     onNavigateToLogin: () -> Unit,
-    onNavigateToHome: () -> Unit,
-    viewModel: AuthViewModel = viewModel()
+    onNavigateToHome: () -> Unit
 ) {
-    val uiState by viewModel.uiState.observeAsState()
     val context = LocalContext.current
+    val viewModel: AuthViewModel = viewModel(factory = AuthViewModelFactory(context))
+    val uiState by viewModel.uiState.observeAsState()
 
     // Observar el estado de registro exitoso
     LaunchedEffect(uiState?.isRegistrationSuccessful) {
@@ -75,7 +77,7 @@ fun RegisterScreen(
                     .size(120.dp)
                     .background(
                         MaterialTheme.colorScheme.primaryContainer,
-                        _root_ide_package_.androidx.compose.foundation.shape.CircleShape
+                        CircleShape
                     )
                     .padding(bottom = 24.dp),
                 contentAlignment = Alignment.Center

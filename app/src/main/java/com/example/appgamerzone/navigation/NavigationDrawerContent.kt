@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Logout
+import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Settings
@@ -23,6 +23,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.material3.HorizontalDivider
 
 // navigation/NavigationDrawerContent.kt - Contenido mejorado
 // navigation/NavigationDrawerContent.kt - Rutas corregidas
@@ -45,7 +46,7 @@ fun NavigationDrawerContent(
                 modifier = Modifier.padding(vertical = 20.dp, horizontal = 12.dp)
             )
 
-            Divider()
+            HorizontalDivider()
 
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -93,11 +94,11 @@ fun NavigationDrawerContent(
 
             Spacer(modifier = Modifier.weight(1f))
 
-            Divider()
+            HorizontalDivider()
 
             NavigationDrawerItem(
                 label = { Text("Cerrar Sesión") },
-                icon = { Icon(Icons.Default.Logout, contentDescription = "Cerrar Sesión") },
+                icon = { Icon(Icons.AutoMirrored.Filled.Logout, contentDescription = "Cerrar Sesión") },
                 selected = false,
                 onClick = { onItemClick(Screen.Login.route) }, // ← Ruta corregida
                 modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)

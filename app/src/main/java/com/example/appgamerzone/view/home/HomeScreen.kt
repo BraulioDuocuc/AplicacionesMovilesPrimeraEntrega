@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.appgamerzone.data.model.Product
 import com.example.appgamerzone.data.model.ProductCategory
+import com.example.appgamerzone.navigation.Screen
 import com.example.appgamerzone.viewmodel.HomeViewModel
 
 @Composable
