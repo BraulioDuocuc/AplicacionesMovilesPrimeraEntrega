@@ -42,13 +42,6 @@ fun RegisterScreen(
     val viewModel: AuthViewModel = viewModel(factory = AuthViewModelFactory(context))
     val uiState by viewModel.uiState.observeAsState()
 
-    // Observar el estado de registro exitoso
-    LaunchedEffect(uiState?.isRegistrationSuccessful) {
-        if (uiState?.isRegistrationSuccessful == true) {
-            viewModel.resetRegistrationState()
-        }
-    }
-
     // Mostrar diálogo de éxito
     if (uiState?.isRegistrationSuccessful == true) {
         RegistrationSuccessDialog(
