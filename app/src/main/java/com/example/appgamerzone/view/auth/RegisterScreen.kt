@@ -264,6 +264,7 @@ fun RegisterForm(
         // Botón de Registro
         Button(
             onClick = onRegisterClick,
+            enabled = uiState?.isLoading != true,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(56.dp),
@@ -272,11 +273,18 @@ fun RegisterForm(
                 containerColor = MaterialTheme.colorScheme.primary
             )
         ) {
-            Text(
-                "Crear Cuenta",
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Bold
-            )
+            if (uiState?.isLoading == true) {
+                CircularProgressIndicator(
+                    color = MaterialTheme.colorScheme.onPrimary,
+                    modifier = Modifier.size(20.dp)
+                )
+            } else {
+                Text(
+                    "Crear Cuenta",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
         }
     }
 }

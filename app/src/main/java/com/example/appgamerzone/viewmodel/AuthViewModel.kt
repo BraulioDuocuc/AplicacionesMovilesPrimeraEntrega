@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.appgamerzone.data.model.User
 import com.example.appgamerzone.data.repository.AuthRepository
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 data class AuthState(
@@ -105,7 +106,12 @@ class AuthViewModel(private val repository: AuthRepository) : ViewModel() {
                 isDuocStudent = isDuocStudent,
                 referralCode = referralCode
             )
+            val startTime = System.currentTimeMillis()
             val result = repository.register(user)
+            val elapsed = System.currentTimeMillis() - startTime
+            if (elapsed < 2000) {
+                delay(2000 - elapsed)
+            }
             result.onSuccess {
                 _uiState.value = current.copy(isRegistrationSuccessful = true, isLoading = false)
             }.onFailure {
@@ -119,7 +125,12 @@ class AuthViewModel(private val repository: AuthRepository) : ViewModel() {
         if (!validateLogin()) return
         viewModelScope.launch {
             _uiState.value = current.copy(isLoading = true, loginError = null)
+            val startTime = System.currentTimeMillis()
             val result = repository.login(current.email, current.password)
+            val elapsed = System.currentTimeMillis() - startTime
+            if (elapsed < 2000) {
+                delay(2000 - elapsed)
+            }
             result.onSuccess {
                 _uiState.value = current.copy(isLoginSuccessful = true, isLoading = false)
             }.onFailure {
